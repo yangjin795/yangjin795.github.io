@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android XML 绘图</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="yj">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="无他 唯手熟尔 ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">无他 唯手熟尔 </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/bian-cheng-yu-yan.html">
+						<i class="icon-folder-open icon-large"></i>编程语言
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/gong-ju.html">
+						<i class="icon-folder-open icon-large"></i>工具
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Android XML 绘图">
+                                        Android XML 绘图
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2016-03-06T00:00:00+08:00">
+        <i class="icon-calendar"></i>Sun 06 March 2016
+</abbr>
+<span class="label">By</span>
+<a href="/author/yj.html"><i class="icon-user"></i>yj</a>
+<span class="label">Category</span>
+<a href="/category/gong-ju.html"><i class="icon-folder-open"></i>工具</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/android.html"><i class="icon-tag"></i>android</a>
+</footer><!-- /.post-info -->                </div>
+                <h1>Android XML 绘图</h1>
+<h2>简介</h2>
+<p>Android 的 XML 绘图主要涉及到三个元素：shape, layer-list, selector</p>
+<ul>
+<li>shape是基本的元素，shape描述了基本图形，如rectangle, oval, line, ring,以及相关的属性.</li>
+<li>layer-list 是shape的组合，可以将多个 shape 叠加起来，组成更加复杂的图形。</li>
+<li>selector 则用来按照空间的状态，如button 是否被press，是否获得focus等，选择不同的图片或者形状元素。</li>
+</ul>
+<h2>shape</h2>
+<p>shape 有四种：</p>
+<ul>
+<li>rectangle: 矩形，可以通过设置conner得到圆角</li>
+<li>oval：可以画椭圆，圆形</li>
+<li>line：虚线，实线</li>
+<li>ring：圆环</li>
+</ul>
+<p>shape所支持的参数：</p>
+<ul>
+<li>size：制定大小</li>
+<li>solid：填充颜色</li>
+<li>stroke：边框的属性，宽度，颜色，类型等</li>
+<li>conners：conner的半径，配合rectangle使用，可以获得圆角矩形</li>
+<li>gradient：颜色渐变</li>
+<li>padding：</li>
+</ul>
+<p>下面列举具体有哪些属性：</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;shape</span>
+    <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="err">//默认为rectangle</span>
+    <span class="na">android:shape=</span><span class="s">[&quot;rectangle&quot;|&quot;oval&quot;|&quot;line&quot;|&quot;ring&quot;]</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;corners</span> <span class="err">//</span><span class="na">当shape=</span><span class="s">&quot;rectangle&quot;</span><span class="err">时使用</span>
+        <span class="err">//半径，会被后面的单个半径属性覆盖</span>
+        <span class="na">android:radius=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:topLeftRadius=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:topRightRadius=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:bottomLegtRadius=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:bottomRightRadius=</span><span class="s">&quot;integer&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;gradient</span>   <span class="err">//渐变</span>
+        <span class="na">android:angle=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:centerX=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:centerY=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:centerColor=</span><span class="s">&quot;color&quot;</span>
+        <span class="na">android:endColor=</span><span class="s">&quot;color&quot;</span>
+        <span class="na">android:gradientRadius=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:startColor=</span><span class="s">&quot;color&quot;</span>
+        <span class="na">android:type=</span><span class="s">[&quot;linear&quot;|&quot;radial&quot;|&quot;sweep&quot;]</span>
+        <span class="na">android:useCenter=</span><span class="s">[&quot;true&quot;|&quot;false&quot;]/</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;padding</span> <span class="err">//上下左右的间距</span>
+        <span class="na">android:left=</span><span class="s">&quot;integer&quot;</span> 
+        <span class="na">android:top=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:right=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:bottom=</span><span class="s">&quot;integer&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;size</span>
+        <span class="na">android:width=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:height=</span><span class="s">&quot;integer&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;solid</span>  <span class="err">//填充颜色</span>
+        <span class="na">android:color=</span><span class="s">&quot;color&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;stroke</span> <span class="err">//指定边框</span>
+        <span class="na">android:width=</span><span class="s">&quot;integer&quot;</span>
+        <span class="na">android:color=</span><span class="s">&quot;color&quot;</span>
+        <span class="err">//虚线宽度</span>
+        <span class="na">android:dashWidth=</span><span class="s">&quot;integer&quot;</span>
+        <span class="err">//虚线间隔宽度，如果需要实线，则不设置此项和上面一项</span>
+        <span class="na">android:dashGap=</span><span class="s">&quot;integer&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/shape&gt;</span>
+</pre></div>
+
+
+<h2>layer-list</h2>
+<p>layer-list 可以将多个shape组合在一起，形成更加复杂的图形，比如可以形成阴影等。
+用例子说话：</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;layer-list</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span><span class="err">//距离上下左右的距离</span>
+        <span class="na">android:top=</span><span class="s">&quot;4dp&quot;</span>
+        <span class="na">android:left=</span><span class="s">&quot;4dp&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">&quot;oval&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">&quot;#FF333333&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+
+    <span class="nt">&lt;item&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">&quot;oval&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">&quot;@color/annotation_color_blue&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;stroke</span>
+                <span class="na">android:width=</span><span class="s">&quot;1dp&quot;</span>
+                <span class="na">android:color=</span><span class="s">&quot;#FFF&quot;</span>
+                <span class="na">android:dashGap=</span><span class="s">&quot;0dp&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;size</span>
+                <span class="na">android:width=</span><span class="s">&quot;48dp&quot;</span>
+                <span class="na">android:height=</span><span class="s">&quot;48dp&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/layer-list&gt;</span>
+</pre></div>
+
+
+<p>以上xml绘制的图形如下所示：</p>
+<p><img alt="round_blue" src="/images/round_blue.png"></p>
+<h2>selector</h2>
+<p>selector 的元素可以是xml绘制的推行，也可以是颜色，图片等等
+仍然用例子说话：</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:state_focused=</span><span class="s">&quot;true&quot;</span> <span class="na">android:drawable=</span><span class="s">&quot;@mipmap/bg_input_p&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:drawable=</span><span class="s">&quot;@mipmap/bg_input_n&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/selector&gt;</span>
+</pre></div>
+                </div><!-- /.entry-content -->
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/bian-cheng-yu-yan.html">
+    <i class="icon-folder-open icon-large"></i>编程语言
+</a>
+</li>
+<li>
+<a href="/category/gong-ju.html">
+    <i class="icon-folder-open icon-large"></i>工具
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

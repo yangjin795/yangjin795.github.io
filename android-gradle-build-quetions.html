@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>无他 唯手熟尔</title>
+    <title>Android gradle build 常见问题解决</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="yj">
@@ -69,7 +69,7 @@
 						<i class="icon-folder-open icon-large"></i>编程语言
 					</a>
                   </li>
-                  <li >
+                  <li class="active">
                     <a href="/category/gong-ju.html">
 						<i class="icon-folder-open icon-large"></i>工具
 					</a>
@@ -89,9 +89,87 @@
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-<ul>
-<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-</ul>
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Android gradle build 常见问题解决">
+                                        Android gradle build 常见问题解决
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2016-03-06T00:00:00+08:00">
+        <i class="icon-calendar"></i>Sun 06 March 2016
+</abbr>
+<span class="label">By</span>
+<a href="/author/yj.html"><i class="icon-user"></i>yj</a>
+<span class="label">Category</span>
+<a href="/category/gong-ju.html"><i class="icon-folder-open"></i>工具</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/android.html"><i class="icon-tag"></i>android</a>
+	<a href="/tag/gradle.html"><i class="icon-tag"></i>gradle</a>
+</footer><!-- /.post-info -->                </div>
+                <h1>Minimum supported Gradle version is 2.14.1. Current version is 2.2</h1>
+<h2>原因：</h2>
+<p>是因为 android gradle build 插件所依赖的 gradle 版本和本地安装的版本不一致，本地安装版本低于插件所依赖的版本。例如：</p>
+<table>
+<thead>
+<tr>
+<th>Version of Android gradle publin</th>
+<th align="center">Dependencies of Gradle Version</th>
+<th align="right">Dependencies of SDK build Tools Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.1.0</td>
+<td align="center">2.10 or higher</td>
+<td align="right">23.0.2 or higher</td>
+</tr>
+<tr>
+<td>2.0.0</td>
+<td align="center">2.10 or higher</td>
+<td align="right">21.1.1 or higher</td>
+</tr>
+</tbody>
+</table>
+<h2>解决办法：</h2>
+<p>可以通过 下面的步骤来创建一个gradle wrapper</p>
+<div class="highlight"><pre><span></span>./gradlew wrapper --gradle-version<span class="o">=</span>2.14.1 
+</pre></div>
+
+
+<p>使用 gradlew 来 运行gradle 命令</p>
+<h1>一些概念：</h1>
+<h2>Android Gradle Build Plugin</h2>
+<p>用来 Build Android 项目的 gradle 插件, 在app的 build.gradle中指定：</p>
+<p>```groovy build.gradle
+dependencies {<br>
+    ...
+    classpath 'com.android.tools.build:gradle:2.1.3'
+    ...
+}</p>
+<div class="highlight"><pre><span></span>##Android Build Tools
+Build Tools 定义用来构建 Android 项目的 toolchain. 在 build.gradle 文件中指定：
+
+```groovy build.gradle
+android {
+    ...
+    buildToolsVersion 21.1.2
+    ...
+}
+</pre></div>
+                </div><!-- /.entry-content -->
+        </article>
+</section>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Jacoco coverage 使用以及相关问题</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="yj">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="无他 唯手熟尔 ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">无他 唯手熟尔 </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/bian-cheng-yu-yan.html">
+						<i class="icon-folder-open icon-large"></i>编程语言
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/gong-ju.html">
+						<i class="icon-folder-open icon-large"></i>工具
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Android Jacoco coverage 使用以及相关问题">
+                                        Android Jacoco coverage 使用以及相关问题
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2016-03-06T00:00:00+08:00">
+        <i class="icon-calendar"></i>Sun 06 March 2016
+</abbr>
+<span class="label">By</span>
+<a href="/author/yj.html"><i class="icon-user"></i>yj</a>
+<span class="label">Category</span>
+<a href="/category/gong-ju.html"><i class="icon-folder-open"></i>工具</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/android.html"><i class="icon-tag"></i>android</a>
+	<a href="/tag/jacoco.html"><i class="icon-tag"></i>jacoco</a>
+</footer><!-- /.post-info -->                </div>
+                <h1>背景</h1>
+<p>在项目中，为了实现精准测试，一方面想能够查看手工测试是否有效，了解手工测试对代码的覆盖率，另一方面希望能够将手工执行的 case 与 测试代码联系起来，所以需要实现手工测试覆盖率的统计计算。通过调查了解，选用 jacoco 来实现。</p>
+<h1>项目中如何配置生成手工测试覆盖率</h1>
+<h2>build.gradle(app)</h2>
+<p>需要在这个gradle文件中设置debug模式下开启记录覆盖率，并添加 gradle jacoco plugin依赖。<em>(感觉即使不配置plugin也能够生成覆盖率，不知道是不是android plugin已经集成了相关的配置。但是后面生成覆盖率报告的时候需要用到jacoco plugin)</em></p>
+<p>```groovy build.gradle(app)
+android{
+    ...
+    buildTypes {
+        ...
+        debug {
+            testCoverageEnabled true
+        }
+        ...
+    }
+    ...
+}
+...
+apply plugin: 'jacoco'
+jacoco{
+    toolVersion = "0.7.5+"
+}</p>
+<div class="highlight"><pre><span></span>##AndroidManifest.xml
+还需要给应用添加读取外部存储的权限。
+
+```xml AndroidManifest.xml
+<span class="nt">&lt;manifest&gt;</span>
+...
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span><span class="nt">/&gt;</span>
+
+...
+<span class="nt">&lt;/manifest&gt;</span>
+</pre></div>
+
+
+<h2>代码中</h2>
+<p>代码中在需要触发生成覆盖率的地方（比如程序退出时，或者UncaughtExceptionHandler里面）添加以下代码：</p>
+<div class="highlight"><pre><span></span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span> <span class="n">coverageDir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span><span class="o">(</span><span class="s">&quot;/mnt/sdcard/coverage/&quot;</span><span class="o">);</span> <span class="c1">//这里是写入覆盖率工具的 sd 卡上的目录</span>
+    <span class="k">if</span><span class="o">(!</span><span class="n">coverageDir</span><span class="o">.</span><span class="na">exists</span><span class="o">()){</span>
+        <span class="n">coverageDir</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyyMMddHHmmssSSS&quot;</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">coverageFileName</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">())+</span><span class="s">&quot;.ec&quot;</span><span class="o">;</span>
+    <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span><span class="o">(</span><span class="n">coverageDir</span><span class="o">,</span><span class="n">coverageFileName</span><span class="o">);</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="n">Object</span> <span class="n">agent</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&quot;org.jacoco.agent.rt.RT&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;getAgent&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+    <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">((</span><span class="kt">byte</span><span class="o">[])</span><span class="n">agent</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;getExecutionData&quot;</span><span class="o">,</span> <span class="kt">boolean</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">invoke</span><span class="o">(</span><span class="n">agent</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span> <span class="c1">//第二个bool 参数是指，获得数据后，是否reset data，重新生成覆盖数据</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">out</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>   
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h1>生成覆盖率文件后，如何生成报告</h1>
+<h2>Merge多个覆盖率执行文件</h2>
+<p>如果手工测试多次，生成多个覆盖率文件，要想查看所有这些测试总共覆盖情况，首先需要 Merge 覆盖率执行结果文件。</p>
+<p>```groovy build.gradle(app)
+//首先先删除旧的merge结果文件
+task removeOldMergeEc(type: Delete) {
+    delete "$buildDir/mergedcoverage.ec"
+}</p>
+<p>task mergeReport(type:JacocoMerge,dependsOn:removeOldMergeEc){
+    group = "Reporting"
+    description = "merge jacoco report."
+    destinationFile= file("$buildDir/mergedcoverage.ec")
+    //这里的ec_dir是存储ec文件的文件夹
+    FileTree tree = fileTree("$ec_dir") { 
+        include '*<em>/</em>.ec'
+        }
+    executionData = tree
+}</p>
+<div class="highlight"><pre><span></span><span class="x">运行命令：`gradle mergeReport -Pec_dir=&quot;/the/ec/dir&quot;` 注意：这里的dir必须是绝对路径。</span>
+<span class="cp">##</span><span class="c">生成测试报告</span><span class="x"></span>
+
+<span class="x">```groovy build.gradle</span>
+<span class="x">task jacocoTestReport(type: JacocoReport,dependsOn:mergeReport) </span><span class="err">{</span><span class="x"></span>
+<span class="x">    group = &quot;Reporting&quot;</span>
+<span class="x">    description = &quot;Generate Jacoco coverage reports after running tests.&quot;</span>
+<span class="x">    reports </span><span class="err">{</span><span class="x"></span>
+<span class="x">        xml.enabled = true</span>
+<span class="x">        html.enabled = true</span>
+<span class="x">    }</span>
+<span class="x">    classDirectories = fileTree(</span>
+<span class="x">            dir: &#39;./build/intermediates/classes/debug&#39;,</span>
+<span class="x">            excludes: [&#39;**/R*.class&#39;,</span>
+<span class="x">                       &#39;**/*</span><span class="p">$</span><span class="nv">InjectAdapter</span><span class="p">.</span><span class="nv">class</span><span class="x">&#39;,</span>
+<span class="x">                       &#39;**/*</span><span class="p">$</span><span class="nv">ModuleAdapter</span><span class="p">.</span><span class="nv">class</span><span class="x">&#39;,</span>
+<span class="x">                       &#39;**/*</span><span class="p">$</span><span class="nv">ViewInjector</span><span class="x">*.class&#39;</span>
+<span class="x">            ])</span>
+<span class="x">    sourceDirectories = files(coverageSourceDirs)</span>
+<span class="x">    executionData = files(&quot;</span><span class="p">$</span><span class="nv">buildDir</span><span class="x">/mergedcoverage.ec&quot;)</span>
+
+<span class="x">    doFirst </span><span class="err">{</span><span class="x"></span>
+<span class="x">        new File(&quot;</span><span class="p">$</span><span class="nv">buildDir</span><span class="x">/intermediates/classes/&quot;).eachFileRecurse </span><span class="err">{</span><span class="x"> file -&gt;</span>
+<span class="x">            if (file.name.contains(&#39;</span><span class="p">$$</span><span class="x">&#39;)) </span><span class="err">{</span><span class="x"></span>
+<span class="x">                file.renameTo(file.path.replace(&#39;</span><span class="p">$$</span><span class="x">&#39;, &#39;</span><span class="p">$</span><span class="x">&#39;))</span>
+<span class="x">            }</span>
+<span class="x">        }</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+
+
+<p>运行命令：<code>gradle jacocoTestReport</code></p>
+<h1>遇到的问题</h1>
+<h2>java.io.FileNotFoundException: /jacoco.exec: open failed: EROFS (Read-only file system)</h2>
+<p>这个问题，我尝试了一下，会出现在log里，但是不影响使用，也不影响生成覆盖率结果。</p>
+<h2>java.io.IOException: Incompatible version 1007</h2>
+<p>merge report的时候会出现下面的错误.</p>
+<div class="highlight"><pre><span></span>java.io.IOException: Incompatible version 1007.
+        at org.jacoco.core.data.ExecutionDataReader.readHeader<span class="o">(</span>ExecutionDataReader.java:127<span class="o">)</span>
+        at org.jacoco.core.data.ExecutionDataReader.readBlock<span class="o">(</span>ExecutionDataReader.java:107<span class="o">)</span>
+        at org.jacoco.core.data.ExecutionDataReader.read<span class="o">(</span>ExecutionDataReader.java:87<span class="o">)</span>
+        at org.jacoco.core.tools.ExecFileLoader.load<span class="o">(</span>ExecFileLoader.java:59<span class="o">)</span>
+        at org.jacoco.ant.MergeTask.load<span class="o">(</span>MergeTask.java:85<span class="o">)</span>
+        ... <span class="m">84</span> more
+</pre></div>
+
+
+<p>查了很多，都说是jacoco版本的问题，我的相关版本是：</p>
+<ul>
+<li>android studio: 2.2</li>
+<li>buildToolsVersion "23.0.3"</li>
+</ul>
+<p>当使用 0.7.4+或者0.7.1.XXX的时候就会出错，改成下面的0.7.5+就没有问题了。所以出现这种错误的时候，多尝试改改这个版本。</p>
+<div class="highlight"><pre><span></span><span class="n">jacoco</span><span class="o">{</span>
+    <span class="n">toolVersion</span> <span class="o">=</span> <span class="s2">&quot;0.7.5+&quot;</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>还有，当出现这个问题的时候，我曾一度认为是不是我的覆盖率结果文件不完整，结果不对，尝试了一下，如果是这种问题的话，会有以下的报错信息：</p>
+<div class="highlight"><pre><span></span>Caused by: java.io.IOException: Invalid execution data file.
+        at org.jacoco.core.data.ExecutionDataReader.read<span class="o">(</span>ExecutionDataReader.java:84<span class="o">)</span>
+        at org.jacoco.core.tools.ExecFileLoader.load<span class="o">(</span>ExecFileLoader.java:59<span class="o">)</span>
+        at org.jacoco.ant.MergeTask.load<span class="o">(</span>MergeTask.java:85<span class="o">)</span>
+        ... <span class="m">84</span> more
+</pre></div>
+
+
+<h2>生成的覆盖率报告无法链接到代码</h2>
+<p>一般是因为设置的sourceDirectories不正确，需要设置到java代码的根目录，比如<code>'src/main/java/'</code></p>
+<h2>Reference</h2>
+<p>jacoco agent github repository: https://github.com/jacoco/jacoco/tree/master/org.jacoco.agent.rt/src/org/jacoco/agent/rt</p>
+                </div><!-- /.entry-content -->
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/bian-cheng-yu-yan.html">
+    <i class="icon-folder-open icon-large"></i>编程语言
+</a>
+</li>
+<li>
+<a href="/category/gong-ju.html">
+    <i class="icon-folder-open icon-large"></i>工具
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>
