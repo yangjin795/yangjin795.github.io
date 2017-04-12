@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/theme/css/normalize.css" />
     <link rel="stylesheet" href="/theme/css/foundation.min.css" />
     <link rel="stylesheet" href="/theme/css/style.css" />
-    <link rel="stylesheet" href="/theme/css/pygments.css" />	
+    <link rel="stylesheet" href="/theme/css/pygments.css" />
     <script src="/theme/js/modernizr.js"></script>
 </head>
 
@@ -40,124 +40,242 @@
 <!-- Main Page Content and Sidebar -->
 <div class="row">
 
+
+
+    <!-- Sidebar -->
+    <aside class="large-2 columns">
+        <h5 class="sidebar-title">Site</h5>
+        <ul class="side-nav">
+            <li><a href="/archives.html">Archives</a>
+            <li><a href="/tags.html">Tags</a>
+        </ul>
+
+        <h5 class="sidebar-title">Categories</h5>
+        <ul class="side-nav">
+            <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
+            <li><a href="/category/gong-ju.html">工具</a></li>
+            <li><a href="/category/ji-qi-xue-xi.html">机器学习</a></li>
+        </ul>
+
+
+
+    </aside> <!-- End Sidebar -->
+
     <!-- Main Blog Content -->
-    <div class="large-9 columns">
+    <div class="large-10 columns">
         
         
 
             <article>
-                <a href="/python-tricks.html"><h3 class="article-title">Python 小技巧</h3></a>
-<h6 class="subheader" title="2016-03-06T00:00:00+08:00">Sun 06 March 2016
+                <a href="/pandas_df_selection.html"><h3 class="article-title">Pandas DataFrame 数据选取和过滤</h3></a>
+<h6 class="subheader" title="2017-04-01T00:00:00+08:00">Sat 01 April 2017
 </h6>
 
 
-<h1>List</h1>
-<h2>DSU(decorate-sort-undecorate)</h2>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">case_insensitive_sort</span><span class="p">(</span><span class="n">string_list</span><span class="p">):</span>
-     <span class="n">auxiliary_list</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">string_list</span><span class="p">]</span>
-     <span class="n">auxiliary_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-     <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">auxiliary_list</span><span class="p">]</span>
+<p>Pandas 是 Python Data Analysis Library, 是基于 numpy 库的一个为了数据分析而设计的一个 Python 库。它提供了很多工具和方法，使得使用 python 操作大量的数据变得高效而方便。</p>
+<p>本文专门介绍 Pandas 中对 DataFrame 的一些对数据进行过滤、选取的方法和工具。
+首先，本文所用的原始数据如下：</p>
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABCD&#39;</span><span class="p">))</span>
 </pre></div>
 
 
-<p>更加简便的方法：</p>
-<div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">string_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+<div class="highlight"><pre><span></span>    <span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> 
+                     <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span> <span class="o">-</span><span class="mf">0.268194</span> <span class="o">-</span><span class="mf">0.035003</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>  <span class="mf">1.313314</span> <span class="o">-</span><span class="mf">0.072320</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>  <span class="mf">0.287588</span> <span class="o">-</span><span class="mf">0.012103</span>  <span class="mf">0.525291</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">05</span>  <span class="mf">0.526615</span> <span class="o">-</span><span class="mf">0.417645</span>  <span class="mf">0.405853</span> <span class="o">-</span><span class="mf">0.835213</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">1.143858</span> <span class="o">-</span><span class="mf">0.326720</span>  <span class="mf">1.425379</span>  <span class="mf">0.531037</span>
 </pre></div>
 
 
-<p>还有一种方法：</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> <span class="k">return</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
- <span class="n">string_list</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">compare</span><span class="p">)</span>
+<h2>选取</h2>
+<h3>通过 [] 来选取</h3>
+<h4>选取一列或者几列：</h4>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>    <span class="mf">0.522241</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>    <span class="mf">2.104572</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>    <span class="mf">0.480507</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>    <span class="mf">1.700309</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">05</span>    <span class="mf">0.526615</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">06</span>    <span class="mf">1.143858</span>
 </pre></div>
 
 
-<h2>遍历 list的index和value</h2>
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
-    <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span>
-
-<span class="mi">0</span> <span class="mi">1</span>
-<span class="mi">1</span> <span class="mi">2</span>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">]]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>  <span class="mf">0.287588</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">05</span>  <span class="mf">0.526615</span> <span class="o">-</span><span class="mf">0.417645</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">1.143858</span> <span class="o">-</span><span class="mf">0.326720</span>
 </pre></div>
 
 
-<h2>list转换为dict，单数index为k，双数为v</h2>
-<div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">]</span>
-<span class="n">a</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
-<span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
-
-<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
-<span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">]</span>
-
-<span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
-<span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)]</span>
-
-<span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
-<span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">}</span>
+<h4>选取某一行或者几行：</h4>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span> <span class="o">-</span><span class="mf">0.268194</span> <span class="o">-</span><span class="mf">0.03500</span>   
 </pre></div>
 
 
-<h2>list变量重新赋值：</h2>
-<div class="highlight"><pre><span></span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-04-03&#39;</span><span class="p">]</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span> <span class="o">-</span><span class="mf">0.268194</span> <span class="o">-</span><span class="mf">0.035003</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>  <span class="mf">1.313314</span> <span class="o">-</span><span class="mf">0.072320</span>
 </pre></div>
 
 
-<p>上面的方法是做一个rebind，下面的方法完全修改了L的内容</p>
-<div class="highlight"><pre><span></span><span class="n">L</span><span class="p">[:]</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<h3>loc, 通过行标签选取数据</h3>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">,</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
 </pre></div>
 
 
-<h2>list,dict,set有类似于copy.copy做浅拷贝的方法：</h2>
-<div class="highlight"><pre><span></span><span class="n">L2</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>
-<span class="n">d2</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
-<span class="n">s2</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+    <span class="n">A</span>    <span class="mf">0.522241</span>
+    <span class="n">B</span>    <span class="mf">0.495106</span>
+    <span class="n">C</span>   <span class="o">-</span><span class="mf">0.268194</span>
+    <span class="n">D</span>   <span class="o">-</span><span class="mf">0.035003</span>
 </pre></div>
 
 
-<h2>清空 list：</h2>
-<p>del list[:]</p>
-<ul>
-<li>大数据量的list，要进行局部元素删除，尽量避免用del随机删除，非常影响性能，如果删除量很大，不如直接新建list，然后用下面的方法释放清空旧list。</li>
-<li>对于一般性数据量超大的list，快速清空释放内存，可直接用 a = [] 来释放。其中a为list。</li>
-<li>对于作为函数参数的list，用上面的方法是不行的，因为函数执行完后，list长度是不变的，但是可以这样在函数中释放一个参数list所占内存： del a[:]，速度很快，也彻底</li>
-</ul>
-<h2>获取list区别：</h2>
-<div class="highlight"><pre><span></span><span class="n">List3</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">List1</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">List2</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-04-03&#39;</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span> <span class="o">-</span><span class="mf">0.268194</span> <span class="o">-</span><span class="mf">0.035003</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>  <span class="mf">1.313314</span> <span class="o">-</span><span class="mf">0.072320</span>
 </pre></div>
 
 
-<h1>Dict</h1>
-<h2>避免过多的引号：</h2>
-<p><code>data = dict(red=1, green=2, blue=3)</code>
-和 <code>data={‘red’:1,’green’:2,’blue’:3}</code> 效果一样</p>
-<h2>遍历dict 的k,v:</h2>
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
-    <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span>
-<span class="n">a</span> <span class="mi">1</span>
-<span class="n">c</span> <span class="mi">3</span>
-<span class="n">b</span> <span class="mi">2</span>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-04-04&#39;</span><span class="p">,[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">]]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>  <span class="mf">0.287588</span>
 </pre></div>
 
 
-<h2>dict如果某个key不存在则设置[],然后返回key对应的value</h2>
-<div class="highlight"><pre><span></span><span class="n">a</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">a</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">,[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
-<span class="n">a</span>
-<span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">]}</span>
-<span class="n">a</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">,[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
-<span class="n">a</span>
-<span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]}</span>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">]]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>  <span class="mf">0.287588</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">05</span>  <span class="mf">0.526615</span> <span class="o">-</span><span class="mf">0.417645</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">1.143858</span> <span class="o">-</span><span class="mf">0.326720</span>
 </pre></div>
 
 
-<h1>Set</h1>
-<h2>set 的操作：</h2>
-<p>x &amp; y 交集</p>
-<p>x | y 并集</p>
-<p>x - y 差集</p>
-<p>t ^ s  对称差集（项在t或s中，但不会同时出现在二者中）</p>
-<p>s.issubset(t)，s &lt;= t  测试是否 s 中的每一个元素都在 t 中</p>
-<p>s.issuperset(t) , s &gt;= t  测试是否 t 中的每一个元素都在 s 中</p><p class="subheader">Category: <a href="/category/bian-cheng-yu-yan.html">编程语言</a>
+<h3>iloc, 通过行号获取数据</h3>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+    <span class="n">A</span>    <span class="mf">0.480507</span>
+    <span class="n">B</span>    <span class="mf">1.215048</span>
+    <span class="n">C</span>    <span class="mf">1.313314</span>
+    <span class="n">D</span>   <span class="o">-</span><span class="mf">0.072320</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>  <span class="mf">1.313314</span> <span class="o">-</span><span class="mf">0.072320</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">C</span>         <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span> <span class="o">-</span><span class="mf">0.012103</span>  <span class="mf">0.525291</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],:]</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
+</pre></div>
+
+
+<h3>iat, 获取某一个 cell 的值</h3>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+    <span class="o">-</span><span class="mf">0.13963224781812655</span>
+</pre></div>
+
+
+<h2>过滤</h2>
+<h2>使用 [] 过滤</h2>
+<p>[]中是一个boolean 表达式，凡是计算为 True 的<strong>行</strong>就会被选取。</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">A</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>  <span class="mf">0.287588</span> <span class="o">-</span><span class="mf">0.012103</span>  <span class="mf">0.525291</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">1.143858</span> <span class="o">-</span><span class="mf">0.326720</span>  <span class="mf">1.425379</span>  <span class="mf">0.531037</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>   <span class="n">D</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>       <span class="n">NaN</span>       <span class="n">NaN</span>       <span class="n">NaN</span> <span class="n">NaN</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span>       <span class="n">NaN</span>       <span class="n">NaN</span> <span class="n">NaN</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>       <span class="n">NaN</span>  <span class="mf">1.215048</span>  <span class="mf">1.313314</span> <span class="n">NaN</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>       <span class="n">NaN</span>       <span class="n">NaN</span> <span class="n">NaN</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">05</span>       <span class="n">NaN</span>       <span class="n">NaN</span>       <span class="n">NaN</span> <span class="n">NaN</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">1.143858</span>       <span class="n">NaN</span>  <span class="mf">1.425379</span> <span class="n">NaN</span>
+
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">A</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">B</span><span class="o">&gt;</span><span class="mf">1.5</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>      
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>  <span class="mf">1.313314</span> <span class="o">-</span><span class="mf">0.072320</span>  
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>  <span class="mf">0.287588</span> <span class="o">-</span><span class="mf">0.012103</span>  <span class="mf">0.525291</span>  
+</pre></div>
+
+
+<p>下面是一个更加复杂的例子，选取的是 index 在 '2017-04-01'中'2017-04-04'的，一行的数据的和大于1的行：</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-04-04&#39;</span><span class="p">,</span><span class="n">df</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+
+<p>还可以通过和 apply 方法结合，构造更加复杂的过滤，实现将某个返回值为 boolean 的方法作为过滤条件：</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+
+
+<h2>使用 isin</h2>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span><span class="s1">&#39;two&#39;</span><span class="p">,</span><span class="s1">&#39;three&#39;</span><span class="p">,</span><span class="s1">&#39;four&#39;</span><span class="p">,</span><span class="s1">&#39;three&#39;</span><span class="p">]</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>      <span class="n">E</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span> <span class="o">-</span><span class="mf">0.268194</span> <span class="o">-</span><span class="mf">0.035003</span>    <span class="n">one</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>    <span class="n">one</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.480507</span>  <span class="mf">1.215048</span>  <span class="mf">1.313314</span> <span class="o">-</span><span class="mf">0.072320</span>    <span class="n">two</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">1.700309</span>  <span class="mf">0.287588</span> <span class="o">-</span><span class="mf">0.012103</span>  <span class="mf">0.525291</span>  <span class="n">three</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">05</span>  <span class="mf">0.526615</span> <span class="o">-</span><span class="mf">0.417645</span>  <span class="mf">0.405853</span> <span class="o">-</span><span class="mf">0.835213</span>   <span class="n">four</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">1.143858</span> <span class="o">-</span><span class="mf">0.326720</span>  <span class="mf">1.425379</span>  <span class="mf">0.531037</span>  <span class="n">three</span>
+
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;one&#39;</span><span class="p">])]</span>
+    <span class="n">Out</span><span class="p">:</span>
+                       <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>    <span class="n">E</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span> <span class="o">-</span><span class="mf">0.268194</span> <span class="o">-</span><span class="mf">0.035003</span>  <span class="n">one</span>
+    <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>  <span class="n">one</span>
+</pre></div><p class="subheader">Category: <a href="/category/ji-qi-xue-xi.html">机器学习</a>
 
     Tagged: 
     <a href="/tag/python.html">Python </a>
@@ -167,6 +285,32 @@
 
             </article>
 
+
+                <hr  class="gradient"/>
+
+
+        
+
+
+            <article>
+                <a href="/python-tricks.html"><h3 class="article-title">Python 小技巧</h3></a>
+<h6 class="subheader" title="2016-08-06T00:00:00+08:00">Sat 06 August 2016
+</h6>
+
+
+<p>Python 小技巧</p><p class="subheader">Category: <a href="/category/bian-cheng-yu-yan.html">编程语言</a>
+
+    Tagged: 
+    <a href="/tag/python.html">Python </a>
+</p>
+
+
+
+                <a class="button radius secondary small right" href="/python-tricks.html">Read More</a>
+                <hr  class="gradient"/>
+            </article>
+
+            <!-- /#posts-list -->
 <div class="pagination-centered">
 <h6 class="subheader">Page 1 of 1</h6>
 
@@ -175,32 +319,8 @@
 </p>
 </div>
 
-
-
-            <!-- /#posts-list -->
-
     </div>
     <!-- End Main Content -->
-
-    <!-- Sidebar -->
-    <aside class="large-3 columns">
-        <h5 class="sidebar-title">Site</h5>
-        <ul class="side-nav">
-            <li><a href="/archives.html">Archives</a>
-            <li><a href="/tags.html">Tags</a>
-        </ul>
-
-		
-        <h5 class="sidebar-title">Categories</h5>
-        <ul class="side-nav">
-            <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
-            <li><a href="/category/gong-ju.html">工具</a></li>
-   
-        </ul>
-
-		
-
-    </aside> <!-- End Sidebar -->
 
 </div> <!-- End Main Content and Sidebar -->
 

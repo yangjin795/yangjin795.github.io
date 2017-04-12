@@ -4,7 +4,7 @@
     <!-- Set the viewport width to device width for mobile -->
     <meta name="viewport" content="width=device-width" />
 
-    <title>无他 唯手熟尔 - yj</title>
+    <title>Pandas DataFrame 数据选取和过滤</title>
 
     <link rel="stylesheet" href="/theme/css/normalize.css" />
     <link rel="stylesheet" href="/theme/css/foundation.min.css" />
@@ -63,16 +63,17 @@
 
     <!-- Main Blog Content -->
     <div class="large-10 columns">
-        
-        
+<article>
+    <header>
+        <h3 class="article-title"><a href="/pandas_df_selection.html" rel="bookmark"
+        title="Permalink to Pandas DataFrame 数据选取和过滤">Pandas DataFrame 数据选取和过滤</a></h3>
+    </header>
 
-            <article>
-                <a href="/pandas_df_selection.html"><h3 class="article-title">Pandas DataFrame 数据选取和过滤</h3></a>
 <h6 class="subheader" title="2017-04-01T00:00:00+08:00">Sat 01 April 2017
 </h6>
 
 
-<p>Pandas 是 Python Data Analysis Library, 是基于 numpy 库的一个为了数据分析而设计的一个 Python 库。它提供了很多工具和方法，使得使用 python 操作大量的数据变得高效而方便。</p>
+    <p>Pandas 是 Python Data Analysis Library, 是基于 numpy 库的一个为了数据分析而设计的一个 Python 库。它提供了很多工具和方法，使得使用 python 操作大量的数据变得高效而方便。</p>
 <p>本文专门介绍 Pandas 中对 DataFrame 的一些对数据进行过滤、选取的方法和工具。
 首先，本文所用的原始数据如下：</p>
 <div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABCD&#39;</span><span class="p">))</span>
@@ -275,7 +276,8 @@
                        <span class="n">A</span>         <span class="n">B</span>         <span class="n">C</span>         <span class="n">D</span>    <span class="n">E</span>
     <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">0.522241</span>  <span class="mf">0.495106</span> <span class="o">-</span><span class="mf">0.268194</span> <span class="o">-</span><span class="mf">0.035003</span>  <span class="n">one</span>
     <span class="mi">2017</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">2.104572</span> <span class="o">-</span><span class="mf">0.977768</span> <span class="o">-</span><span class="mf">0.139632</span> <span class="o">-</span><span class="mf">0.735926</span>  <span class="n">one</span>
-</pre></div><p class="subheader">Category: <a href="/category/ji-qi-xue-xi.html">机器学习</a>
+</pre></div>
+<p class="subheader">Category: <a href="/category/ji-qi-xue-xi.html">机器学习</a>
 
     Tagged: 
     <a href="/tag/python.html">Python </a>
@@ -283,128 +285,8 @@
 
 
 
-            </article>
 
-
-                <hr  class="gradient"/>
-
-
-        
-
-
-            <article>
-                <a href="/jacoco-report.html"><h3 class="article-title">Jacoco覆盖率报告解读</h3></a>
-<h6 class="subheader" title="2017-02-06T00:00:00+08:00">Mon 06 February 2017
-</h6>
-
-
-<p>Jacoco覆盖率报告解读</p><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
-
-    Tagged: 
-    <a href="/tag/tools.html">tools </a>
-</p>
-
-
-
-                <a class="button radius secondary small right" href="/jacoco-report.html">Read More</a>
-                <hr  class="gradient"/>
-            </article>
-
-        
-
-
-            <article>
-                <a href="/android-jacoco-coverage.html"><h3 class="article-title">Android Jacoco coverage 使用以及相关问题</h3></a>
-<h6 class="subheader" title="2016-12-01T00:00:00+08:00">Thu 01 December 2016
-</h6>
-
-
-<p>在项目中，为了实现精准测试，一方面想能够查看手工测试是否有效，</p><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
-
-    Tagged: 
-    <a href="/tag/android.html">android </a>
-    <a href="/tag/jacoco.html">jacoco </a>
-</p>
-
-
-
-                <a class="button radius secondary small right" href="/android-jacoco-coverage.html">Read More</a>
-                <hr  class="gradient"/>
-            </article>
-
-        
-
-
-            <article>
-                <a href="/android-gradle-build-quetions.html"><h3 class="article-title">Android gradle build 常见问题解决</h3></a>
-<h6 class="subheader" title="2016-11-06T00:00:00+08:00">Sun 06 November 2016
-</h6>
-
-
-<p>Android gradle build 常见问题解决</p><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
-
-    Tagged: 
-    <a href="/tag/android.html">android </a>
-    <a href="/tag/gradle.html">gradle </a>
-</p>
-
-
-
-                <a class="button radius secondary small right" href="/android-gradle-build-quetions.html">Read More</a>
-                <hr  class="gradient"/>
-            </article>
-
-        
-
-
-            <article>
-                <a href="/android-xml-draw.html"><h3 class="article-title">Android XML 绘图</h3></a>
-<h6 class="subheader" title="2016-10-06T00:00:00+08:00">Thu 06 October 2016
-</h6>
-
-
-<p>Android 的 XML 绘图主要涉及到三个元素：shape, layer-list, selector</p><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
-
-    Tagged: 
-    <a href="/tag/android.html">android </a>
-</p>
-
-
-
-                <a class="button radius secondary small right" href="/android-xml-draw.html">Read More</a>
-                <hr  class="gradient"/>
-            </article>
-
-        
-
-
-            <article>
-                <a href="/python-tricks.html"><h3 class="article-title">Python 小技巧</h3></a>
-<h6 class="subheader" title="2016-08-06T00:00:00+08:00">Sat 06 August 2016
-</h6>
-
-
-<p>Python 小技巧</p><p class="subheader">Category: <a href="/category/bian-cheng-yu-yan.html">编程语言</a>
-
-    Tagged: 
-    <a href="/tag/python.html">Python </a>
-</p>
-
-
-
-                <a class="button radius secondary small right" href="/python-tricks.html">Read More</a>
-                <hr  class="gradient"/>
-            </article>
-
-            <!-- /#posts-list -->
-<div class="pagination-centered">
-<h6 class="subheader">Page 1 of 1</h6>
-
-<p>
-
-</p>
-</div>
-
+</article>
     </div>
     <!-- End Main Content -->
 

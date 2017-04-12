@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/theme/css/normalize.css" />
     <link rel="stylesheet" href="/theme/css/foundation.min.css" />
     <link rel="stylesheet" href="/theme/css/style.css" />
-    <link rel="stylesheet" href="/theme/css/pygments.css" />	
+    <link rel="stylesheet" href="/theme/css/pygments.css" />
     <script src="/theme/js/modernizr.js"></script>
 </head>
 
@@ -40,93 +40,197 @@
 <!-- Main Page Content and Sidebar -->
 <div class="row">
 
+
+
+    <!-- Sidebar -->
+    <aside class="large-2 columns">
+        <h5 class="sidebar-title">Site</h5>
+        <ul class="side-nav">
+            <li><a href="/archives.html">Archives</a>
+            <li><a href="/tags.html">Tags</a>
+        </ul>
+
+        <h5 class="sidebar-title">Categories</h5>
+        <ul class="side-nav">
+            <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
+            <li><a href="/category/gong-ju.html">工具</a></li>
+            <li><a href="/category/ji-qi-xue-xi.html">机器学习</a></li>
+        </ul>
+
+
+
+    </aside> <!-- End Sidebar -->
+
     <!-- Main Blog Content -->
-    <div class="large-9 columns">
+    <div class="large-10 columns">
         
         
-
-            <article>
-                <a href="/android-gradle-build-quetions.html"><h3 class="article-title">Android gradle build 常见问题解决</h3></a>
-<h6 class="subheader" title="2016-03-06T00:00:00+08:00">Sun 06 March 2016
-</h6>
-
-
-<h1>Minimum supported Gradle version is 2.14.1. Current version is 2.2</h1>
-<h2>原因：</h2>
-<p>是因为 android gradle build 插件所依赖的 gradle 版本和本地安装的版本不一致，本地安装版本低于插件所依赖的版本。例如：</p>
-<table>
-<thead>
-<tr>
-<th>Version of Android gradle publin</th>
-<th align="center">Dependencies of Gradle Version</th>
-<th align="right">Dependencies of SDK build Tools Version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>2.1.0</td>
-<td align="center">2.10 or higher</td>
-<td align="right">23.0.2 or higher</td>
-</tr>
-<tr>
-<td>2.0.0</td>
-<td align="center">2.10 or higher</td>
-<td align="right">21.1.1 or higher</td>
-</tr>
-</tbody>
-</table>
-<h2>解决办法：</h2>
-<p>可以通过 下面的步骤来创建一个gradle wrapper</p>
-<div class="highlight"><pre><span></span>./gradlew wrapper --gradle-version<span class="o">=</span>2.14.1 
-</pre></div>
-
-
-<p>使用 gradlew 来 运行gradle 命令</p>
-<h1>一些概念：</h1>
-<h2>Android Gradle Build Plugin</h2>
-<p>用来 Build Android 项目的 gradle 插件, 在app的 build.gradle中指定：</p>
-<p><strong>build.gradle</strong></p>
-<div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">{</span>  
-    <span class="o">...</span>
-    <span class="n">classpath</span> <span class="s1">&#39;com.android.tools.build:gradle:2.1.3&#39;</span>
-    <span class="o">...</span>
-<span class="o">}</span>
-</pre></div>
-
-
-<h2>Android Build Tools</h2>
-<p>Build Tools 定义用来构建 Android 项目的 toolchain. 在 build.gradle 文件中指定：</p>
-<p><strong>build.gradle</strong></p>
-<div class="highlight"><pre><span></span><span class="n">android</span> <span class="o">{</span>
-    <span class="o">...</span>
-    <span class="n">buildToolsVersion</span> <span class="mf">21.1</span><span class="o">.</span><span class="mi">2</span>
-    <span class="o">...</span>
-<span class="o">}</span>
-</pre></div><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
-
-    Tagged: 
-    <a href="/tag/android.html">android </a>
-    <a href="/tag/gradle.html">gradle </a>
-</p>
-
-
-
-            </article>
-
-
-                <hr  class="gradient"/>
-
-
-        
-
 
             <article>
                 <a href="/android-jacoco-coverage.html"><h3 class="article-title">Android Jacoco coverage 使用以及相关问题</h3></a>
-<h6 class="subheader" title="2016-03-06T00:00:00+08:00">Sun 06 March 2016
+<h6 class="subheader" title="2016-12-01T00:00:00+08:00">Thu 01 December 2016
 </h6>
 
 
-<p>在项目中，为了实现精准测试，一方面想能够查看手工测试是否有效，</p><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
+<h1>背景</h1>
+<p>在项目中，为了实现精准测试，一方面想能够查看手工测试是否有效，了解手工测试对代码的覆盖率，另一方面希望能够将手工执行的 case 与 测试代码联系起来，所以需要实现手工测试覆盖率的统计计算。通过调查了解，选用 jacoco 来实现。</p>
+<h1>项目中如何配置生成手工测试覆盖率</h1>
+<h2>build.gradle(app)</h2>
+<p>需要在这个gradle文件中设置debug模式下开启记录覆盖率，并添加 gradle jacoco plugin依赖。<em>(感觉即使不配置plugin也能够生成覆盖率，不知道是不是android plugin已经集成了相关的配置。但是后面生成覆盖率报告的时候需要用到jacoco plugin)</em></p>
+<div class="highlight"><pre><span></span><span class="n">android</span><span class="o">{</span>
+    <span class="o">...</span>
+    <span class="n">buildTypes</span> <span class="o">{</span>
+        <span class="o">...</span>
+        <span class="n">debug</span> <span class="o">{</span>
+            <span class="n">testCoverageEnabled</span> <span class="kc">true</span>
+        <span class="o">}</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+<span class="o">...</span>
+<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;jacoco&#39;</span>
+<span class="n">jacoco</span><span class="o">{</span>
+    <span class="n">toolVersion</span> <span class="o">=</span> <span class="s2">&quot;0.7.5+&quot;</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h2>AndroidManifest.xml</h2>
+<p>还需要给应用添加读取外部存储的权限。</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;manifest&gt;</span>
+...
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span><span class="nt">/&gt;</span>
+
+...
+<span class="nt">&lt;/manifest&gt;</span>
+</pre></div>
+
+
+<h2>代码中</h2>
+<p>代码中在需要触发生成覆盖率的地方（比如程序退出时，或者UncaughtExceptionHandler里面）添加以下代码：</p>
+<div class="highlight"><pre><span></span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span> <span class="n">coverageDir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span><span class="o">(</span><span class="s">&quot;/mnt/sdcard/coverage/&quot;</span><span class="o">);</span> <span class="c1">//这里是写入覆盖率工具的 sd 卡上的目录</span>
+    <span class="k">if</span><span class="o">(!</span><span class="n">coverageDir</span><span class="o">.</span><span class="na">exists</span><span class="o">()){</span>
+        <span class="n">coverageDir</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyyMMddHHmmssSSS&quot;</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">coverageFileName</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">())+</span><span class="s">&quot;.ec&quot;</span><span class="o">;</span>
+    <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">File</span><span class="o">(</span><span class="n">coverageDir</span><span class="o">,</span><span class="n">coverageFileName</span><span class="o">);</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="n">Object</span> <span class="n">agent</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&quot;org.jacoco.agent.rt.RT&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;getAgent&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+    <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">((</span><span class="kt">byte</span><span class="o">[])</span><span class="n">agent</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;getExecutionData&quot;</span><span class="o">,</span> <span class="kt">boolean</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">invoke</span><span class="o">(</span><span class="n">agent</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span> <span class="c1">//第二个bool 参数是指，获得数据后，是否reset data，重新生成覆盖数据</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">out</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>   
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h1>生成覆盖率文件后，如何生成报告</h1>
+<h2>Merge多个覆盖率执行文件</h2>
+<p>如果手工测试多次，生成多个覆盖率文件，要想查看所有这些测试总共覆盖情况，首先需要 Merge 覆盖率执行结果文件。</p>
+<p><strong>build.gradle(app)</strong></p>
+<div class="highlight"><pre><span></span><span class="c1">//首先先删除旧的merge结果文件</span>
+<span class="n">task</span> <span class="nf">removeOldMergeEc</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Delete</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">delete</span> <span class="s2">&quot;$buildDir/mergedcoverage.ec&quot;</span>
+<span class="o">}</span>
+
+<span class="n">task</span> <span class="nf">mergeReport</span><span class="o">(</span><span class="nl">type:</span><span class="n">JacocoMerge</span><span class="o">,</span><span class="nl">dependsOn:</span><span class="n">removeOldMergeEc</span><span class="o">){</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="s2">&quot;Reporting&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;merge jacoco report.&quot;</span>
+    <span class="n">destinationFile</span><span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">&quot;$buildDir/mergedcoverage.ec&quot;</span><span class="o">)</span>
+    <span class="c1">//这里的ec_dir是存储ec文件的文件夹</span>
+    <span class="n">FileTree</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">fileTree</span><span class="o">(</span><span class="s2">&quot;$ec_dir&quot;</span><span class="o">)</span> <span class="o">{</span> 
+        <span class="n">include</span> <span class="s1">&#39;**/*.ec&#39;</span>
+        <span class="o">}</span>
+    <span class="n">executionData</span> <span class="o">=</span> <span class="n">tree</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>运行命令：<code>gradle mergeReport -Pec_dir="/the/ec/dir"</code> 注意：这里的dir必须是绝对路径。</p>
+<h2>生成测试报告</h2>
+<div class="highlight"><pre><span></span><span class="n">build</span><span class="o">.</span><span class="na">gradle</span>
+<span class="n">task</span> <span class="nf">jacocoTestReport</span><span class="o">(</span><span class="nl">type:</span> <span class="n">JacocoReport</span><span class="o">,</span><span class="nl">dependsOn:</span><span class="n">mergeReport</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="s2">&quot;Reporting&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Generate Jacoco coverage reports after running tests.&quot;</span>
+    <span class="n">reports</span> <span class="o">{</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">html</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="o">}</span>
+    <span class="n">classDirectories</span> <span class="o">=</span> <span class="n">fileTree</span><span class="o">(</span>
+            <span class="nl">dir:</span> <span class="s1">&#39;./build/intermediates/classes/debug&#39;</span><span class="o">,</span>
+            <span class="nl">excludes:</span> <span class="o">[</span><span class="s1">&#39;**/R*.class&#39;</span><span class="o">,</span>
+                       <span class="s1">&#39;**/*$InjectAdapter.class&#39;</span><span class="o">,</span>
+                       <span class="s1">&#39;**/*$ModuleAdapter.class&#39;</span><span class="o">,</span>
+                       <span class="s1">&#39;**/*$ViewInjector*.class&#39;</span>
+            <span class="o">])</span>
+    <span class="n">sourceDirectories</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="n">coverageSourceDirs</span><span class="o">)</span>
+    <span class="n">executionData</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="s2">&quot;$buildDir/mergedcoverage.ec&quot;</span><span class="o">)</span>
+
+    <span class="n">doFirst</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&quot;$buildDir/intermediates/classes/&quot;</span><span class="o">).</span><span class="na">eachFileRecurse</span> <span class="o">{</span> <span class="n">file</span> <span class="o">-&gt;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">file</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s1">&#39;$$&#39;</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">file</span><span class="o">.</span><span class="na">renameTo</span><span class="o">(</span><span class="n">file</span><span class="o">.</span><span class="na">path</span><span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="s1">&#39;$$&#39;</span><span class="o">,</span> <span class="s1">&#39;$&#39;</span><span class="o">))</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>运行命令：<code>gradle jacocoTestReport</code></p>
+<h1>遇到的问题</h1>
+<h2>java.io.FileNotFoundException: /jacoco.exec: open failed: EROFS (Read-only file system)</h2>
+<p>这个问题，我尝试了一下，会出现在log里，但是不影响使用，也不影响生成覆盖率结果。</p>
+<h2>java.io.IOException: Incompatible version 1007</h2>
+<p>merge report的时候会出现下面的错误.</p>
+<div class="highlight"><pre><span></span>java.io.IOException: Incompatible version 1007.
+        at org.jacoco.core.data.ExecutionDataReader.readHeader<span class="o">(</span>ExecutionDataReader.java:127<span class="o">)</span>
+        at org.jacoco.core.data.ExecutionDataReader.readBlock<span class="o">(</span>ExecutionDataReader.java:107<span class="o">)</span>
+        at org.jacoco.core.data.ExecutionDataReader.read<span class="o">(</span>ExecutionDataReader.java:87<span class="o">)</span>
+        at org.jacoco.core.tools.ExecFileLoader.load<span class="o">(</span>ExecFileLoader.java:59<span class="o">)</span>
+        at org.jacoco.ant.MergeTask.load<span class="o">(</span>MergeTask.java:85<span class="o">)</span>
+        ... <span class="m">84</span> more
+</pre></div>
+
+
+<p>查了很多，都说是jacoco版本的问题，我的相关版本是：</p>
+<ul>
+<li>android studio: 2.2</li>
+<li>buildToolsVersion "23.0.3"</li>
+</ul>
+<p>当使用 0.7.4+或者0.7.1.XXX的时候就会出错，改成下面的0.7.5+就没有问题了。所以出现这种错误的时候，多尝试改改这个版本。</p>
+<div class="highlight"><pre><span></span><span class="n">jacoco</span><span class="o">{</span>
+    <span class="n">toolVersion</span> <span class="o">=</span> <span class="s2">&quot;0.7.5+&quot;</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>还有，当出现这个问题的时候，我曾一度认为是不是我的覆盖率结果文件不完整，结果不对，尝试了一下，如果是这种问题的话，会有以下的报错信息：</p>
+<div class="highlight"><pre><span></span>Caused by: java.io.IOException: Invalid execution data file.
+        at org.jacoco.core.data.ExecutionDataReader.read<span class="o">(</span>ExecutionDataReader.java:84<span class="o">)</span>
+        at org.jacoco.core.tools.ExecFileLoader.load<span class="o">(</span>ExecFileLoader.java:59<span class="o">)</span>
+        at org.jacoco.ant.MergeTask.load<span class="o">(</span>MergeTask.java:85<span class="o">)</span>
+        ... <span class="m">84</span> more
+</pre></div>
+
+
+<h2>生成的覆盖率报告无法链接到代码</h2>
+<p>一般是因为设置的sourceDirectories不正确，需要设置到java代码的根目录，比如<code>'src/main/java/'</code></p>
+<h2>Reference</h2>
+<p>jacoco agent github repository: https://github.com/jacoco/jacoco/tree/master/org.jacoco.agent.rt/src/org/jacoco/agent/rt</p><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
 
     Tagged: 
     <a href="/tag/android.html">android </a>
@@ -135,7 +239,31 @@
 
 
 
-                <a class="button radius secondary small right" href="/android-jacoco-coverage.html">Read More</a>
+            </article>
+
+
+                <hr  class="gradient"/>
+
+
+        
+
+
+            <article>
+                <a href="/android-gradle-build-quetions.html"><h3 class="article-title">Android gradle build 常见问题解决</h3></a>
+<h6 class="subheader" title="2016-11-06T00:00:00+08:00">Sun 06 November 2016
+</h6>
+
+
+<p>Android gradle build 常见问题解决</p><p class="subheader">Category: <a href="/category/gong-ju.html">工具</a>
+
+    Tagged: 
+    <a href="/tag/android.html">android </a>
+    <a href="/tag/gradle.html">gradle </a>
+</p>
+
+
+
+                <a class="button radius secondary small right" href="/android-gradle-build-quetions.html">Read More</a>
                 <hr  class="gradient"/>
             </article>
 
@@ -144,7 +272,7 @@
 
             <article>
                 <a href="/android-xml-draw.html"><h3 class="article-title">Android XML 绘图</h3></a>
-<h6 class="subheader" title="2016-03-06T00:00:00+08:00">Sun 06 March 2016
+<h6 class="subheader" title="2016-10-06T00:00:00+08:00">Thu 06 October 2016
 </h6>
 
 
@@ -171,26 +299,6 @@
 
     </div>
     <!-- End Main Content -->
-
-    <!-- Sidebar -->
-    <aside class="large-3 columns">
-        <h5 class="sidebar-title">Site</h5>
-        <ul class="side-nav">
-            <li><a href="/archives.html">Archives</a>
-            <li><a href="/tags.html">Tags</a>
-        </ul>
-
-		
-        <h5 class="sidebar-title">Categories</h5>
-        <ul class="side-nav">
-            <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
-            <li><a href="/category/gong-ju.html">工具</a></li>
-   
-        </ul>
-
-		
-
-    </aside> <!-- End Sidebar -->
 
 </div> <!-- End Main Content and Sidebar -->
 

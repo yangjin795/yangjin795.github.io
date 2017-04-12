@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/theme/css/normalize.css" />
     <link rel="stylesheet" href="/theme/css/foundation.min.css" />
     <link rel="stylesheet" href="/theme/css/style.css" />
-    <link rel="stylesheet" href="/theme/css/pygments.css" />	
+    <link rel="stylesheet" href="/theme/css/pygments.css" />
     <script src="/theme/js/modernizr.js"></script>
 </head>
 
@@ -40,19 +40,40 @@
 <!-- Main Page Content and Sidebar -->
 <div class="row">
 
+
+
+    <!-- Sidebar -->
+    <aside class="large-2 columns">
+        <h5 class="sidebar-title">Site</h5>
+        <ul class="side-nav">
+            <li><a href="/archives.html">Archives</a>
+            <li><a href="/tags.html">Tags</a>
+        </ul>
+
+        <h5 class="sidebar-title">Categories</h5>
+        <ul class="side-nav">
+            <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
+            <li><a href="/category/gong-ju.html">工具</a></li>
+            <li><a href="/category/ji-qi-xue-xi.html">机器学习</a></li>
+        </ul>
+
+
+
+    </aside> <!-- End Sidebar -->
+
     <!-- Main Blog Content -->
-    <div class="large-9 columns">
+    <div class="large-10 columns">
         
         
 
             <article>
                 <a href="/python-tricks.html"><h3 class="article-title">Python 小技巧</h3></a>
-<h6 class="subheader" title="2016-03-06T00:00:00+08:00">Sun 06 March 2016
+<h6 class="subheader" title="2016-08-06T00:00:00+08:00">Sat 06 August 2016
 </h6>
 
 
-<h1>List</h1>
-<h2>DSU(decorate-sort-undecorate)</h2>
+<h3>List</h3>
+<h4>DSU(decorate-sort-undecorate)</h4>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">case_insensitive_sort</span><span class="p">(</span><span class="n">string_list</span><span class="p">):</span>
      <span class="n">auxiliary_list</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">string_list</span><span class="p">]</span>
      <span class="n">auxiliary_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
@@ -71,7 +92,7 @@
 </pre></div>
 
 
-<h2>遍历 list的index和value</h2>
+<h4>遍历 list的index和value</h4>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
     <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span>
 
@@ -80,7 +101,7 @@
 </pre></div>
 
 
-<h2>list转换为dict，单数index为k，双数为v</h2>
+<h4>list转换为dict，单数index为k，双数为v</h4>
 <div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">]</span>
 <span class="n">a</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
 <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
@@ -96,7 +117,7 @@
 </pre></div>
 
 
-<h2>list变量重新赋值：</h2>
+<h4>list变量重新赋值：</h4>
 <div class="highlight"><pre><span></span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
@@ -107,30 +128,30 @@
 </pre></div>
 
 
-<h2>list,dict,set有类似于copy.copy做浅拷贝的方法：</h2>
+<h4>list,dict,set有类似于copy.copy做浅拷贝的方法：</h4>
 <div class="highlight"><pre><span></span><span class="n">L2</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>
 <span class="n">d2</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
 <span class="n">s2</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
 </pre></div>
 
 
-<h2>清空 list：</h2>
+<h4>清空 list：</h4>
 <p>del list[:]</p>
 <ul>
 <li>大数据量的list，要进行局部元素删除，尽量避免用del随机删除，非常影响性能，如果删除量很大，不如直接新建list，然后用下面的方法释放清空旧list。</li>
 <li>对于一般性数据量超大的list，快速清空释放内存，可直接用 a = [] 来释放。其中a为list。</li>
 <li>对于作为函数参数的list，用上面的方法是不行的，因为函数执行完后，list长度是不变的，但是可以这样在函数中释放一个参数list所占内存： del a[:]，速度很快，也彻底</li>
 </ul>
-<h2>获取list区别：</h2>
+<h4>获取list区别：</h4>
 <div class="highlight"><pre><span></span><span class="n">List3</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">List1</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">List2</span><span class="p">))</span>
 </pre></div>
 
 
-<h1>Dict</h1>
-<h2>避免过多的引号：</h2>
+<h3>Dict</h3>
+<h4>避免过多的引号：</h4>
 <p><code>data = dict(red=1, green=2, blue=3)</code>
 和 <code>data={‘red’:1,’green’:2,’blue’:3}</code> 效果一样</p>
-<h2>遍历dict 的k,v:</h2>
+<h4>遍历dict 的k,v:</h4>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
     <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span>
 <span class="n">a</span> <span class="mi">1</span>
@@ -139,7 +160,7 @@
 </pre></div>
 
 
-<h2>dict如果某个key不存在则设置[],然后返回key对应的value</h2>
+<h4>dict如果某个key不存在则设置[],然后返回key对应的value</h4>
 <div class="highlight"><pre><span></span><span class="n">a</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">a</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">,[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">a</span>
@@ -150,8 +171,8 @@
 </pre></div>
 
 
-<h1>Set</h1>
-<h2>set 的操作：</h2>
+<h3>Set</h3>
+<h4>set 的操作：</h4>
 <p>x &amp; y 交集</p>
 <p>x | y 并集</p>
 <p>x - y 差集</p>
@@ -181,26 +202,6 @@
 
     </div>
     <!-- End Main Content -->
-
-    <!-- Sidebar -->
-    <aside class="large-3 columns">
-        <h5 class="sidebar-title">Site</h5>
-        <ul class="side-nav">
-            <li><a href="/archives.html">Archives</a>
-            <li><a href="/tags.html">Tags</a>
-        </ul>
-
-		
-        <h5 class="sidebar-title">Categories</h5>
-        <ul class="side-nav">
-            <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
-            <li><a href="/category/gong-ju.html">工具</a></li>
-   
-        </ul>
-
-		
-
-    </aside> <!-- End Sidebar -->
 
 </div> <!-- End Main Content and Sidebar -->
 
